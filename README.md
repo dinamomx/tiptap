@@ -85,7 +85,7 @@ export default {
 | `setContent` | `content, emitUpdate, parseOptions` | Replace the current content. You can pass an HTML string or a JSON document. `emitUpdate` defaults to `false`. `parseOptions` defaults to those provided in constructor. |
 | `clearContent` | `emitUpdate` | Clears the current content. `emitUpdate` defaults to `false`. |
 | `setOptions` | `options` | Overwrites the current editor properties. |
-| `registerPlugin` | `plugin` | Register a Prosemirror plugin. |
+| `registerPlugin` | `plugin`, `handlePlugins` | Register a Prosemirror plugin. You can pass a function `handlePlugins` with parameters `(plugin, oldPlugins)` to define an order in which `newPlugins` will be called. `handlePlugins` defaults to pushing `plugin` to front of `oldPlugins`. |
 | `getJSON` | – | Get the current content as JSON. |
 | `getHTML` | – | Get the current content as HTML. |
 | `focus` | – | Focus the editor. |
@@ -110,6 +110,7 @@ The `<editor-menu-bar />` component is renderless and will receive some properti
 | `commands` | `Array` | A list of all commands. |
 | `isActive` | `Object` | An object of functions to check if your selected text is a node or mark. `isActive.{node|mark}(attrs)` |
 | `getMarkAttrs` | `Function` | A function to get all mark attributes of your selection. |
+| `getNodeAttrs` | `Function` | A function to get all node attributes of your selection. |
 | `focused` | `Boolean` | Whether the editor is focused. |
 | `focus` | `Function` | A function to focus the editor. |
 
@@ -139,6 +140,7 @@ The `<editor-menu-bubble />` component is renderless and will receive some prope
 | `commands` | `Array` | A list of all commands. |
 | `isActive` | `Object` | An object of functions to check if your selected text is a node or mark. `isActive.{node|mark}(attrs)` |
 | `getMarkAttrs` | `Function` | A function to get all mark attributes of your selection. |
+| `getNodeAttrs` | `Function` | A function to get all node attributes of your selection. |
 | `focused` | `Boolean` | Whether the editor is focused. |
 | `focus` | `Function` | A function to focus the editor. |
 | `menu` | `Object` | An object for positioning your menu. |
@@ -172,6 +174,7 @@ The `<editor-floating-menu />` component is renderless and will receive some pro
 | `commands` | `Array` | A list of all commands. |
 | `isActive` | `Object` | An object of functions to check if your selected text is a node or mark. `isActive.{node|mark}(attrs)` |
 | `getMarkAttrs` | `Function` | A function to get all mark attributes of your selection. |
+| `getNodeAttrs` | `Function` | A function to get all node attributes of your selection. |
 | `focused` | `Boolean` | Whether the editor is focused. |
 | `focus` | `Function` | A function to focus the editor. |
 | `menu` | `Object` | An object for positioning your menu. |
@@ -419,7 +422,10 @@ export default class IframeNode extends Node {
       // `updateAttrs` is a function to update attributes defined in `schema`
       // `view` is the ProseMirror view instance
       // `options` is an array of your extension options
-      // `selected`
+      // `selected` is a boolean which is true when selected
+      // `editor` is a reference to the TipTap editor instance
+      // `getPos` is a function to retrieve the start position of the node
+      // `decorations` is an array of decorations around the node
       props: ['node', 'updateAttrs', 'view'],
       computed: {
         src: {
@@ -489,11 +495,15 @@ Please see [CONTRIBUTING](CONTRIBUTING.md) for details.
 - [Marius Tolzmann](https://github.com/mariux)
 - [All Contributors](../../contributors)
 
-## Packages Using Tiptap
+## Related projects
 
+- [tiptap-svelte](https://github.com/andrewjk/tiptap-svelte) by @andrewjk
 - [Laravel Nova Tiptap Editor Field](https://github.com/manogi/nova-tiptap) by @manogi
 - [WYSIWYG editor for Vuetify](https://github.com/iliyaZelenko/tiptap-vuetify) by @iliyaZelenko
 - [Quasar Tiptap Demo](https://github.com/kfields/quasar-tiptap-demo) @kfields
+- [Python Library that converts tiptap JSON](https://github.com/scrolltech/tiptapy) @scrolltech
+- [WYSIWYG editor for Element UI](https://github.com/Leecason/element-tiptap) by @Leecason
+- [WYSIWYG editor for Quasar Framework](https://github.com/donotebase/quasar-tiptap) by @mekery
 
 ## Love our work?
 [Become a backer](https://www.paypal.me/philippkuehn) ❤️

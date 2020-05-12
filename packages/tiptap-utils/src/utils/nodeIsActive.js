@@ -14,7 +14,7 @@ function nodeSelected(selection, type, attrs) {
   }
 
   if (!['paragraph', 'heading', 'blockquote', 'list_item', 'table_cell', 'table_header'].includes(type.name)) {
-    return node.node.hasMarkup(type, attrs)
+    return node.node.hasMarkup(type, { ...node.node.attrs, ...attrs })
   }
 
   const nodesAttrs = Object
